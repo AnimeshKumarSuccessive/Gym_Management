@@ -1,0 +1,25 @@
+{
+  "name": "Gym_Management",
+  "version": "1.0.0",
+  "description": "gym management system which have users, trainner, payment and all.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnimeshKumarSuccessive/Gym_Management.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnimeshKumarSuccessive/Gym_Management/issues"
+  },
+  "homepage": "https://github.com/AnimeshKumarSuccessive/Gym_Management#readme",
+  "dependencies": {
+    "@feathersjs/express": "^4.5.15",
+    "@feathersjs/feathers": "^4.5.15",
+    "@feathersjs/socketio": "^4.5.15"
+  }
+}
