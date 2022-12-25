@@ -1,24 +1,24 @@
-// const feather = require('@feathersjs/feathers');
-// const express = require('@feathersjs/express');
-// const userService = require('../model/user.model');
+import  feather from '@feathersjs/feathers';
+import express from '@feathersjs/express';
+import userService from './src/model/trainnner.model.js';
+import { config } from 'dotenv';
 
-// const app = express(feather);
+config();
 
-// app.use(express.json());
+const userRoute = express(feather()); 
 
-// app.configure(express.rest());  
+userRoute.use('/user', new userService());
 
-// app.use('/user', new userService());
-// app.use(express.urlencoded({ extended:true }))
+userRoute.service('/user').on('created', user => {
+    console.log('A new user has been created', user);
+});
 
-// app.use(express.errorHandler());
+userRoute.service('/user').on('updated', user => {
+    console.log('A user has been updated', user);
+});
 
-// app.service('/user').on('created', user => {
-//     console.log('A new user has been created', user);
-// });
+userRoute.service('/user').on('removed', removedUser=>{
+    console.log('A user has been deleted', removedUser);
+});
 
-// app.listen(process.env.PORT ).on('listening', ()=>{
-//     console.log(`A feather application is started on localhost: ${process.env.PORT}`); 
-// });
-
-// console.log('userService', app);
+export default userRoute;

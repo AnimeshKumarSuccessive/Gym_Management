@@ -1,22 +1,11 @@
-import { config } from 'dotenv';
 import { nanoid } from 'nanoid';
-import neo4j from 'neo4j-driver';
+import { session } from '../model/database.model'; 
 
 config()
-
-
-const {
-    url,
-    db_username,
-    db_password,
-    database,
-} = process.env
-
-const driver = neo4j.driver(url, neo4j.auth.basic(db_username, db_password))
-const session = driver.session({ database });
-                                            
-
+                                          
 class userService {
+
+  
     async create(user) {
         const uniqueId = nanoid(8)
         const newUser = await session.run(
