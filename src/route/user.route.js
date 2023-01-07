@@ -2,12 +2,13 @@ import  feather from '@feathersjs/feathers';
 import express from '@feathersjs/express';
 import userService from './src/model/trainnner.model.js';
 import { config } from 'dotenv';
+import Authrization from '../middleware/middleware.js';
 
 config();
 
 const userRoute = express(feather()); 
 
-userRoute.use('/user', new userService());
+userRoute.use('/user', Authrization, new userService());
 
 userRoute.service('/user').on('created', user => {
     console.log('A new user has been created', user);

@@ -1,5 +1,9 @@
-import PaymentService from '../server/payment.server';
+import  feather from '@feathersjs/feathers';
+import express from '@feathersjs/express';
+import trainnerService from './src/model/trainnner.model.js';
+import { config } from 'dotenv';
 
-app.use('payments', new PaymentService(), {
-    events: ['status']
-  });
+config();
+
+
+export default paymentRoute;

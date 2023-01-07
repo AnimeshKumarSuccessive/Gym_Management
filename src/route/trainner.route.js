@@ -2,6 +2,7 @@ import  feather from '@feathersjs/feathers';
 import express from '@feathersjs/express';
 import trainnerService from './src/model/trainnner.model.js';
 import { config } from 'dotenv';
+import Authrization from '../middleware/middleware.js';
 
 config();
 
@@ -11,7 +12,7 @@ trainnerRoute.use(express.json());
 
 trainnerRoute.configure(express.rest());  
 
-trainnerRoute.use('/trainner', new trainnerService());
+trainnerRoute.use('/trainner', Authrization, new trainnerService());
 
 trainnerRoute.service('/trainner').on('created', trainner => {
     console.log('A new trainner has been created', trainner);
