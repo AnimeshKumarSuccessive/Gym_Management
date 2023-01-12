@@ -1,4 +1,9 @@
-export { default as trainnerRoute } from './trainner.route';
-export { default as userRoute } from './user.route';
-// export { default as paymentRoute } from './payment.route';
-// export { default as planRoute } from './plan.route';
+import trainnerRoute  from './trainner.route.js';
+import userRoute from './user.route.js';
+import planRoute from './plan.route.js';
+
+export {
+    trainnerRoute,
+    userRoute,
+    planRoute
+};

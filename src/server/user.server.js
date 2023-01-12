@@ -1,12 +1,19 @@
 import { config } from 'dotenv';
 import { nanoid } from "nanoid";
-
-import './trainnner.server';
-import './plan.server';
+import neo4j from 'neo4j-driver';
 
 config()
 
-console.log(TrainnerService);
+const {
+    url,
+    db_username,
+    db_password,
+    database,
+} = process.env
+
+const driver = neo4j.driver(url, neo4j.auth.basic(db_username, db_password))
+    const session = driver.session({ database });
+    console.log(session);  
                                        
 class userService {
   
@@ -15,7 +22,8 @@ class userService {
         const newUser = await session.run(
             `CREATE (u:User {_id: ${uniqueId}} {name: ${user.name}}, {role: ${user.role}}, {phone: ${user.phone}},{ u.address: ${user.address}}, {u.height: ${user.height}}, {u.weight: ${user.weight}}) RETURN u`
             `CREATE (t)-[r: user_trainner]->(u)-[rel: user_plan ]->(p) RETURN (u)`
-        ).then(result => {
+        )
+        .then(result => {
             result.records.forEach(record => {
               console.log(record.get('name'))
             })

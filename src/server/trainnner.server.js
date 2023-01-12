@@ -13,13 +13,13 @@ const {
 
 const driver = neo4j.driver(url, neo4j.auth.basic(db_username, db_password))
     const session = driver.session({ database });
-    console.log(session);                                           
+    // console.log(session);                                           
 
 class TrainnerService {
     async create(trainner) {
         const uniqueId = nanoid(8)
         const newtrainner = await session.run(
-            `CREATE (u:Trainner {_id: ${uniqueId}} {name: ${trainner.name}}, {phone: ${trainner.phone}}) RETURN u`
+            `CREATE (u:Trainner {_id: ${uniqueId}} {name: ${trainner.name}}, {phone: ${trainner.phone}}) RETURN u LIMIT 25`
         ).then(result => {
             result.records.forEach(record => {
               console.log(record.get('name'))

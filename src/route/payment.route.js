@@ -5,5 +5,8 @@ import { config } from 'dotenv';
 
 config();
 
+const paymentRoute = () => {
+    console.log('paid');
+}
 
 export default paymentRoute;

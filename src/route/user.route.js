@@ -1,8 +1,9 @@
 import  feather from '@feathersjs/feathers';
 import express from '@feathersjs/express';
-import userService from './src/model/trainnner.model.js';
+// import userService from './src/model/trainnner.model.js';
 import { config } from 'dotenv';
 import Authrization from '../middleware/middleware.js';
+import userService from '../server/user.server.js';
 
 config();
 
