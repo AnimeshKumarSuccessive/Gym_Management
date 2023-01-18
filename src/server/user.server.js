@@ -42,29 +42,45 @@ class userService {
     async update(id, user) {
       console.log('id', id, 'trainner', user);
         const { name, age, role, phone, address, height, weight } = user;
-        const result = await session.run(
-            `MATCH (u:User {_id: "${id}"}) SET u.name = "${name}", u.age = "${age}", u.role = "${role}", u.phone = "${phone}", u.address = "${address}", u.height = "${height}", u.weight = "${weight}" RETURN u`
-        )
-        session.close();
-        // .then(result => {
-        //     result.records.forEach(record => {
-        //       console.log(record.get('name'))
-        //     })
-        //   })
-        //   .catch(error => {
-        //     console.log(error)
-        //   })
-        //   .then(() => session.close())
-        return await result.records[0].get(0).properties;
+        if(!id){
+          return 'Please enter an id'
+        }
+        if(id.length===8){
+          const result = await session.run(
+              `MATCH (u:User {_id: "${id}"}) SET u.name = "${name}", u.age = "${age}", u.role = "${role}", u.phone = "${phone}", u.address = "${address}", u.height = "${height}", u.weight = "${weight}" RETURN u`
+          )
+          session.close();
+          // .then(result => {
+          //     result.records.forEach(record => {
+          //       console.log(record.get('name'))
+          //     })
+          //   })
+          //   .catch(error => {
+          //     console.log(error)
+          //   })
+          //   .then(() => session.close())
+          return await result.records[0].get(0).properties;
+        }
+        else {
+          return 'please provide valid id'
+        }
     }
 
     async remove(id) {
       console.log('id', id);
-      const del = await session.run(
-          `MATCH (t:Trainner {id: "${id}"}) DETACH DELETE t return t`
-      )
-      session.close();
-      return del.records;
+      if(!id){
+        return 'Please enter an id'
+      }
+      if(id.length === 8){
+        const del = await session.run(
+            `MATCH (t:Trainner {id: "${id}"}) DETACH DELETE t return t`
+        )
+        session.close();
+        return del.records;
+      }
+      else {
+        return 'please provide a valid id'
+      }
     }
 }
 

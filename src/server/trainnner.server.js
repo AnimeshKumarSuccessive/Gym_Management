@@ -35,14 +35,16 @@ class TrainnerService {
         //     console.log(error)
         //   })
         //   .then(() => session.close())
-        console.log(newtrainner.records[0].get(0).properties);
         return newtrainner.records[0].get(0).properties;
 
     }
 
     async update(id, trainner) {
       console.log('id', id, 'trainner', trainner);
-      const { name, age, role, phone, address, height, weight } = trainner 
+      const { name, age, role, phone, address, height, weight } = trainner;
+      if(!id){
+        return 'Please enter an id'
+      }
         const result = await session.run(
             `MATCH (t:Trainner {_id: "${id}"}) SET t.name = "${name}", t.age = "${age}", t.role = "${role}", t.phone = "${phone}", t.address = "${address}", t.height = "${height}", t.weight = "${weight}" RETURN t`
         )
@@ -60,12 +62,19 @@ class TrainnerService {
     }
 
     async remove(id) {
-      console.log('id', id);
+      if(!id){
+        return 'Please enter an id'
+      }
+      if(id.length===8){
         const del = await session.run(
             `MATCH (t:Trainner {id: "${id}"}) DETACH DELETE t return t`
         )
         session.close();
         return del.records;
+      }
+      else {
+        return 'please provide a vaild id'
+      }
     }
 }
 

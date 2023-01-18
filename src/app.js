@@ -2,8 +2,8 @@ import  feather from '@feathersjs/feathers';
 import express from '@feathersjs/express';
 import { config } from 'dotenv';
 import neo4j from 'neo4j-driver';
-import { userRoute, trainnerRoute, planRoute} from './route/index.js';
-import Authrization from './middleware/middleware.js';
+// import { userRoute, trainnerRoute, planRoute} from './route/index.js';
+// import Authrization from './middleware/middleware.js';
 // import { planService,
 //     StatusServer,
 //     TrainnerService,
