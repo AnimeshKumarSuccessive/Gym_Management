@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import { nanoid } from "nanoid";
 import neo4j from 'neo4j-driver';
 
-config()
+config();
 
 const {
     url,
@@ -12,52 +12,59 @@ const {
 } = process.env
 
 const driver = neo4j.driver(url, neo4j.auth.basic(db_username, db_password))
-    const session = driver.session({ database });
-    console.log(session);  
+    const session = driver.session({ database }); 
                                        
 class userService {
   
     async create(user) {
-        const uniqueId = nanoid(8)
+      console.log('user', user);
+      const { name, age, role, phone, address, height, weight } = user;
+      const session = driver.session();
+        const uniqueId = nanoid(8);
         const newUser = await session.run(
-            `CREATE (u:User {_id: ${uniqueId}} {name: ${user.name}}, {role: ${user.role}}, {phone: ${user.phone}},{ u.address: ${user.address}}, {u.height: ${user.height}}, {u.weight: ${user.weight}}) RETURN u`
-            `CREATE (t)-[r: user_trainner]->(u)-[rel: user_plan ]->(p) RETURN (u)`
+            `CREATE (u:User {_id: "${uniqueId}", name: "${name}", age:"${age}", role: "${role}", phone: "${phone}", address: "${address}", height: "${height}", weight: "${weight}"}) RETURN u`
+            // `CREATE (t)-[r: user_trainner]->(u)-[rel: user_plan ]->(p) RETURN (u)`
         )
-        .then(result => {
-            result.records.forEach(record => {
-              console.log(record.get('name'))
-            })
-          })
-          .catch(error => {
-            console.log(error)
-          })
-          .then(() => session.close())
+        session.close();
+        // .then(result => {
+        //     result.records.forEach(record => {
+        //       console.log(record.get('_id'))
+        //     })
+        //   })
+        //   .catch(error => {
+        //     console.log(error)
+        //   })
+        //   .then(() => session.close())
           
-        return await newUser;
+        return await newUser.records[0].get(0).properties;
     }
 
     async update(id, user) {
+      console.log('id', id, 'trainner', user);
+        const { name, age, role, phone, address, height, weight } = user;
         const result = await session.run(
-            `MATCH (u:User {_id: ${id}} SET {u.name: ${user.name}}, {role: ${user.role}}, {u.phone: ${user.phone}},{ u.address: ${user.address}}, {u.height: ${user.height}}, {u.weight: ${user.weight}}) RETURN u`
-            `CREATE (u)-[r: user_trainner]->(t) RETURN a,b`
-        ).then(result => {
-            result.records.forEach(record => {
-              console.log(record.get('name'))
-            })
-          })
-          .catch(error => {
-            console.log(error)
-          })
-          .then(() => session.close())
-        return await result;
+            `MATCH (u:User {_id: "${id}"}) SET u.name = "${name}", u.age = "${age}", u.role = "${role}", u.phone = "${phone}", u.address = "${address}", u.height = "${height}", u.weight = "${weight}" RETURN u`
+        )
+        session.close();
+        // .then(result => {
+        //     result.records.forEach(record => {
+        //       console.log(record.get('name'))
+        //     })
+        //   })
+        //   .catch(error => {
+        //     console.log(error)
+        //   })
+        //   .then(() => session.close())
+        return await result.records[0].get(0).properties;
     }
 
-    async softDelete(id) {
-        const del = await session.run(
-            `MATCH (u:User) {_id: ${id}} DETACH DELETE u return u`
-        ).then(() => session.close())
-        .catch((e)=> console.log('user not found', e));
-        return del;
+    async remove(id) {
+      console.log('id', id);
+      const del = await session.run(
+          `MATCH (t:Trainner {id: "${id}"}) DETACH DELETE t return t`
+      )
+      session.close();
+      return del.records;
     }
 }
 

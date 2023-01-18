@@ -13,9 +13,9 @@ planRoute.use(express.json());
 
 planRoute.configure(express.rest());  
 
-planRoute.use('/plan', Authrization, new planService());
+planRoute.use('plan', Authrization, new planService());
 
-planRoute.service('/plan').on('created', plan => {
+planRoute.service('plan').on('created', plan => {
     console.log('A new plan has been created', plan);
 });
 
