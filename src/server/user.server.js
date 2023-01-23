@@ -40,7 +40,7 @@ class userService {
     }
 
     async update(id, user) {
-      console.log('id', id, 'trainner', user);
+      console.log('id', id, 'user', user);
         const { name, age, role, phone, address, height, weight } = user;
         if(!id){
           return 'Please enter an id'
@@ -59,7 +59,7 @@ class userService {
           //     console.log(error)
           //   })
           //   .then(() => session.close())
-          return await result.records[0].get(0).properties;
+          return await result.records[0].get(0).properties;;
         }
         else {
           return 'please provide valid id'
@@ -73,7 +73,7 @@ class userService {
       }
       if(id.length === 8){
         const del = await session.run(
-            `MATCH (t:Trainner {id: "${id}"}) DETACH DELETE t return t`
+            `MATCH (u:User {_id: "${id}"}) DELETE u`
         )
         session.close();
         return del.records;

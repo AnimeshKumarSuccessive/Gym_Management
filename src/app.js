@@ -2,6 +2,7 @@ import  feather from '@feathersjs/feathers';
 import express from '@feathersjs/express';
 import { config } from 'dotenv';
 import neo4j from 'neo4j-driver';
+import cors from 'cors'
 // import { userRoute, trainnerRoute, planRoute} from './route/index.js';
 // import Authrization from './middleware/middleware.js';
 // import { planService,
@@ -12,6 +13,7 @@ import StatusServer from './server/status.server.js';
 import planService from './server/plan.server.js';
 import TrainnerService from './server/trainnner.server.js';
 import userService from './server/user.server.js';
+import Authrization from './middleware/middleware.js';
 
 config();
 
@@ -28,6 +30,7 @@ const driver = neo4j.driver(url, neo4j.auth.basic(db_username, db_password))
 const app = express(feather());
 
 app.use(express.json());
+app.use(cors());
 
 app.configure(express.rest()); 
 
@@ -50,7 +53,7 @@ app.use('/neo4j', {
       session.close();
       return result.records[0].get(0).properties;
     },
-  });
+});
 
 app.get('/healthcheck', async(req,res) => {
     res.send({
